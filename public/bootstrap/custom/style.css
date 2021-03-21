@@ -1,0 +1,168 @@
+body{
+    background-color: #9CC3D5;
+}
+.chat{
+    height: 85vh;
+    width: 98vw;
+    background-color: #0063B2;
+    overflow-x: hidden;
+    overflow-y: visible;
+}
+.controls{
+    height: 10vh;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: stretch;
+    flex-direction: column;
+}
+.information{
+    width: 100%;
+    text-align: center;
+    color: white;
+}
+.information p.danger{
+    color: white;
+    background-color: rgb(190, 42, 42);
+    font-weight: bolder;
+}
+.information p.tips{
+    color: white;
+    background-color: rgb(42, 190, 62);
+    font-weight: 500;
+}
+
+@media (min-width: 1000px)  {
+    .chat{
+        height: 85vh;
+        width: 70vw;
+    } 
+    .controls{
+        height: 9vh;
+        padding: 5px;
+    }
+    .received h3{
+        font-size: 20px !important;
+    }
+    .received p{
+        font-size: larger !important;
+    }
+    .sent h3{
+        font-size: 20px !important;
+    }
+    .sent p{
+        font-size: larger !important;
+    }
+}
+
+.wrapper{
+    flex-basis: 100%;
+    width: 100%;
+    display: inline-block;
+}
+
+.title{
+    background-color: white;
+    height: 5vh;
+    font-size: larger;
+    text-align: center;
+    font-weight: bolder;
+}
+
+/*INPUTS*/
+.controls .inputs{
+    font-size: larger;
+    padding: 5px;
+    outline: none;
+    width: 100%;
+}
+.controls .inputs .text input[type=text]{
+    width: 58vw;
+}
+.btns{
+    padding: 0px;
+    width: 2vw;
+    display: flex;
+    justify-content: space-between;
+}
+#refresh{
+    margin-left: 5px;
+}
+
+@media (max-width: 999px){
+    .chat{
+        width: 100vw;
+    }
+    .controls{
+        width: 100vw;
+    }
+    .controls .inputs .text input[type=text]{
+        width: 60vw;
+    }
+    .btns{
+        padding: 0px;
+        width: 10vw;
+        display: flex;
+        justify-content: space-between;
+    }
+}
+
+.server{
+    background-color: rgb(214, 34, 34);
+    color: white;
+    margin: 10px 0px 5px 0px;
+    padding: 2px;
+    min-width: 10vw;
+    max-width: 80vw;
+    border-radius: 0px 10px 10px 10px;
+}
+.server h3{
+    font-size: 15px;
+    padding: 10px;
+    margin: 0;
+}
+
+/*Chat ballons*/
+.ballon{
+    color: black;
+    margin: 10px 0px 5px 0px;
+    padding: 2px;
+    min-width: 20vw;
+    max-width: 80vw;
+}
+@media (min-width: 1000px){
+    .ballon{
+        min-width: 5vw;
+        max-width: 50vw;
+    }
+}
+
+.ballon h3{
+    font-size: 18px;
+    font-weight: bolder;
+    padding: 2px;
+    margin: 0;
+}
+.ballon p{
+    padding: 2px 10px 2px 10px;
+    font-size: 15px;
+}
+.received {
+    background-color: white;
+    border-radius: 0px 10px 10px 10px;
+}
+
+.sent {
+    background-color: #ADD4E6;
+    border-radius: 10px 0px 10px 10px;
+}
+@keyframes ballon-chat{
+    0%{
+      transform: scaleY(0.1);
+    }
+    50%{
+      transform: scaleY(1.5);
+    }
+    100%{
+      transform: scaleY(1);
+    }
+  }

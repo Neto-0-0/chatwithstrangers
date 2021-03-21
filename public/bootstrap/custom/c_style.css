@@ -1,0 +1,129 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Candara;
+    background-color: #9CC3D5;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.container {
+    width: 80vw;
+    height: 98vh;
+    background-color: #0063B2;
+    margin-bottom: 0;
+}
+.topo {
+    text-align: center;
+    background-color: white;
+    font-size: 18px;
+    padding: 10px;
+    font-weight: bold;
+    box-shadow: 1px 1px 10px #333;
+}
+.chat-body {
+    height: 82%;
+    font-size: 14px;
+    color: white;
+    margin: 10px;
+    overflow-x: hidden;
+    overflow-y: visible;
+}
+.body-container {
+    width: 100%;
+    display: inline-block;
+}
+/*INPUTS DE MENSAGEM*/
+.inputs {
+    padding-bottom: 1px;
+    padding-top: 1px;
+    display: flex;
+    bottom: 0;
+    margin-bottom: 10px;
+    background-color: white;
+    font-size: 18px;
+    justify-content: space-around;
+    border-radius: 10px;
+    margin-top: 0;
+  }
+  .inputs input, button {
+    font-size: 20px;
+    margin: 5px;
+    padding: 10px;
+    outline: none;
+  }
+  .inputs input {
+    width: 65vw;
+    border: solid gray 1px;
+    border-radius: 10px;
+  }
+  .inputs button {
+    color: white;
+    background-color: #0063B2;
+    border: 1px solid gray;
+    border-radius: 10px;
+    text-shadow: 1px 1px black;
+  }
+  .inputs button:active{
+    background-color: #004190;
+  }
+  /* BALÕES DE CONVERSA */
+.received {
+    float: left;
+    background-color: white;
+    color: black;
+    margin: 10px 0px 5px 0px;
+    padding: 2px;
+    border-radius: 0px 10px 10px 10px;
+    min-width: 40vw;
+    max-width: 80vw;
+    box-shadow: 0px 1px 10px #333;
+  }
+  .received h3 {
+    font-size: 18px;
+    font-weight: bolder;
+    padding: 2px;
+    margin: 0;
+  }
+  .received p {
+    padding: 2px 10px 2px 10px;
+    font-size: 15px;
+  }
+  
+  .sent {
+    float: right;
+    background-color: #ADD4E6;
+    color: black;
+    margin: 10px 0px 5px 0px;
+    padding: 2px;
+    border-radius: 10px 0px 10px 10px;
+    min-width: 30vw;
+    max-width: 80vw;
+    box-shadow: 0px 1px 10px #333;
+  }
+  .sent h3 {
+    font-size: 18px;
+    font-weight: bolder;
+    padding: 2px;
+    margin: 0;
+  }
+  .sent p {
+    padding: 2px 10px 2px 10px;
+    font-size: 15px;
+  }
+
+  @keyframes ballon-chat{
+    0%{
+      transform: scaleY(0.1);
+    }
+    50%{
+      transform: scaleY(1.5);
+    }
+    100%{
+      transform: scaleY(1);
+    }
+  }
+  
