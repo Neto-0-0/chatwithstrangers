@@ -119,7 +119,7 @@ function renderTips(){
 }
 
 // Functions SOCKET.IO
-let socket = io.connect("http://192.168.0.107:3000");
+let socket = io.connect("https://chatwith-strangers.herokuapp.com");
 
 
 
