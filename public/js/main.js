@@ -1,8 +1,4 @@
 
-for(var i = 0; i<tips.length; i++){
-    console.debug(tips[i])
-}
-
 function inputEnter(e){
     if(e.keyCode == 13){
         document.getElementById("send").click();
@@ -119,8 +115,12 @@ function renderTips(){
 }
 
 // Functions SOCKET.IO
-let socket = io.connect("https://chatwith-strangers.herokuapp.com");
+let socket = io.connect("192.168.0.101:3000");
 
+socket.emit("get-online-users");
+setInterval(function(){
+    socket.emit("get-online-users");
+}, 15000);
 
 
 function newChat(){
@@ -182,6 +182,7 @@ socket.on("received-message", function(msg){
 })
 
 socket.on("chatting", function(id){
+    document.querySelector(".messages").innerHTML = "";
     document.querySelector(".information").innerHTML = "";
     //alert("Chating with: "+ id);
     document.querySelector(".controls").setAttribute("class", "controls");
@@ -205,6 +206,10 @@ socket.on("disconnected-user", function(msg){
     buttonMsg("Start a new chat!", "newChat");
     socket.emit("reset-chatting");
 });
+
+socket.on("online-users", function(msg){
+    document.querySelector("#online-users").innerText = msg;
+})
 
 
 socket.emit("connected");

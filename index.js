@@ -85,6 +85,10 @@ io.on("connection", socket =>{
         }
     });
 
+    socket.on("get-online-users", () =>{
+        socket.emit("online-users", "ONLINE USERS: "+clientsList.length);
+    })
+
 //USER IS DISCONNECTED FROM THE SERVER
     socket.on("disconnect", ()=>{
         if(getWithChatting != "nobody"){
