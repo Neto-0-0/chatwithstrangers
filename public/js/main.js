@@ -115,7 +115,7 @@ function renderTips(){
 }
 
 // Functions SOCKET.IO
-let socket = io.connect("192.168.0.101:3000");
+let socket = io.connect("https://chatwith-strangers.herokuapp.com");
 
 socket.emit("get-online-users");
 setInterval(function(){
