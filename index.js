@@ -87,11 +87,17 @@ io.on("connection", socket =>{
 
     socket.on("get-online-users", () =>{
         socket.emit("online-users", "ONLINE USERS: "+clientsList.length);
-    })
+    });
+
+    socket.on("is-typing", (b) =>{
+        if(getWithChatting(socket.id) != "nobody"){
+            socket.to(getWithChatting(socket.id)).emit("typing", b);
+        }
+    });
 
 //USER IS DISCONNECTED FROM THE SERVER
     socket.on("disconnect", ()=>{
-        if(getWithChatting != "nobody"){
+        if(getWithChatting(socket.id) != "nobody"){
             socket.to(getWithChatting(socket.id)).emit("disconnected-user", "Stranger disconnected!");
             setChatting(getWithChatting(socket.id), "nobody");
             setStatus(getWithChatting(socket.id), "off");

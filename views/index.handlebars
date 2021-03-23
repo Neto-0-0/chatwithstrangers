@@ -16,6 +16,9 @@
 
 
                 <div class="messages"></div>
+                <div id="typingArea">
+                </div>
+                
 
                 <div class="scrollTarget"></div>
 
@@ -55,5 +58,29 @@
 </div>
 
 <script>
+    var typingTimer; //timer identifier
+    var doneTypingInterval = 1000; //time in ms, 1 second for example
+    var timing = 0;
+    //on keyup, start the countdown
+    $('#msg').keyup(function(event) {
+        if(timing == 0 && event.keyCode != 13){
+            isTyping(true);
+            timing = 1;
+        }
+        if(event.keyCode == 13){
+            timing = 1;
+            isTyping(false);
+        }else{
+            clearTimeout(typingTimer);
+            if ($('#msg').val) {
+                typingTimer = setTimeout(function(){ isTyping(false); }, doneTypingInterval);
+            }
+        }  
+    });
+    function isTyping(b){
+        socket.emit("is-typing", b);
+        timing = 0;
+    }
+
     feather.replace();
 </script>

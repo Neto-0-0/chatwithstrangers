@@ -1,4 +1,5 @@
 
+
 function inputEnter(e){
     if(e.keyCode == 13){
         document.getElementById("send").click();
@@ -177,6 +178,8 @@ function send(){
 
 
 
+
+
 socket.on("received-message", function(msg){
     renderStrgMessage(msg);
 })
@@ -209,6 +212,39 @@ socket.on("disconnected-user", function(msg){
 
 socket.on("online-users", function(msg){
     document.querySelector("#online-users").innerText = msg;
+});
+
+socket.on("typing", function(b){
+    var typingArea = document.querySelector("#typingArea");
+    if(b){
+        var typing = document.createElement('div');
+        typing.setAttribute("id", "isTyping");
+        typing.setAttribute("class", "typing float-start shadow");
+
+        var dot1 = document.createElement('div');
+        dot1.setAttribute("class", "typing__dot");
+        var dot2 = document.createElement('div');
+        dot2.setAttribute("class", "typing__dot");
+        var dot3 = document.createElement('div');
+        dot3.setAttribute("class", "typing__dot");
+
+        typing.appendChild(dot1);
+        typing.appendChild(dot2);
+        typing.appendChild(dot3);
+
+        typingArea.appendChild(typing);
+        $('.chat, body').animate({
+            scrollTop: ($(".scrollTarget").offset().top)
+        },500);
+
+        typing.style.animation = "0.2s ballon-chat";
+    }else{
+        if(document.getElementById("isTyping")){
+            document.getElementById("isTyping").remove();
+        }
+    }
+    
+    
 })
 
 
