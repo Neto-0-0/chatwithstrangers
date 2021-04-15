@@ -1,5 +1,4 @@
 
-
 function inputEnter(e){
     if(e.keyCode == 13){
         document.getElementById("send").click();
@@ -32,6 +31,7 @@ function renderMessage(){
     document.querySelector("#msg").value = "";
 
 }
+
 function renderStrgMessage(msg){
     if(msg.trim() != ""){
         let divContainer = document.createElement("div");
@@ -55,6 +55,7 @@ function renderStrgMessage(msg){
 
     }
 }
+
 function renderServerMessage(msg){
     if(msg.trim() != ""){
         let divContainer = document.createElement("div");
@@ -74,6 +75,7 @@ function renderServerMessage(msg){
 
     }
 }
+
 function buttonMsg(msg, onclick){
     if(msg.trim() != ""){
         let divContainer = document.createElement("div");
@@ -115,7 +117,7 @@ function renderTips(){
     document.querySelector(".information").appendChild(p);
 }
 
-// Functions SOCKET.IO
+//------SOCKET.IO------------------------------------------------------
 let socket = io.connect("https://chatwith-strangers.herokuapp.com");
 
 socket.emit("get-online-users");
@@ -175,11 +177,6 @@ function send(){
     
     document.querySelector("#msg").value = "";
 }
-
-
-
-
-
 socket.on("received-message", function(msg){
     renderStrgMessage(msg);
 })
@@ -246,7 +243,6 @@ socket.on("typing", function(b){
     
     
 })
-
 
 socket.emit("connected");
 

@@ -4,49 +4,35 @@ const server = require("http").createServer(app);
 const io = require("socket.io")(server);
 const handlebars = require("express-handlebars");
 
-//FOLDER PUBLIC
+//PASTA PUBLICA
 app.use(Express.static(__dirname + '/public'));
-
 //CONFIG. HANDLEBARS
 app.engine("handlebars", handlebars({defaultLayout: "main"}));
 app.set("view engine", 'handlebars');
-
-//MAIN ROUTE
+//ROTA PRINCIPAL
 app.get('/', (req, res) =>{
     res.render("index");
 });
-
-//ARRAY OF CONNECTED USERS
+//ARRAY DOS CLIENTES CONECTADOS
 let clientsList = [];
-
-
 io.on("connection", socket =>{
-
-//ADD USER TO ARRAY
-    clientsList.push({
+    clientsList.push({ // Adiciona um novo usuário ao se conectar
         id: socket.id,
         status: "off",
         chatting_with: "nobody"
     });
 
-//VERIFY IF USER IS CONNECTED TO SOCKET.IO
-    socket.on("connected", (msg) =>{
+    socket.on("connected", (msg) =>{ //Verifica se o usuário conseguiu se conectar
         socket.emit("client-connected");
     });
 
-
-//SEARCH USER FOR CHATTING
-    socket.on("search-chat", () =>{
+    socket.on("search-chat", () =>{ //Inicia uma busca por um usuário online
         socket.to(getWithChatting(socket.id)).emit("disconnected-user", "Stranger disconnected!");
         setChatting(getWithChatting(socket.id), "nobody");
         setChatting(socket.id, "nobody");
         setStatus(socket.id, "searching");
-        //console.log(clientsList);
-
-        for(var i = 0; i < clientsList.length; i++){
-            
+        for(var i = 0; i < clientsList.length; i++){   
             if(clientsList[i].status == "searching" && clientsList[i].id != socket.id){
-
                 clientsList[i].chatting_with = socket.id;
                 clientsList[i].status = "in-chat";
                 setStatus(socket.id, "in-chat");
@@ -56,19 +42,14 @@ io.on("connection", socket =>{
                 socket.to(clientsList[i].id).emit('chatting', socket.id);
                 i = clientsList.length;
             }
-
         }
-        //console.log(clientsList);
     });
 
-//USER SENT A PRIVATE MESSAGE
-    socket.on("sent-message", msg =>{
-        //console.log(msg);
+    socket.on("sent-message", msg =>{ //Usuário envia uma mensagem privada
         socket.to(getWithChatting(socket.id)).emit("received-message", msg);
     });
 
-//USER LEAVE CHAT
-    socket.on("reset-chatting", ()=>{
+    socket.on("reset-chatting", ()=>{ //Usuário encerra um chat
         if(getWithChatting != "nobody"){
             socket.to(getWithChatting(socket.id)).emit("disconnected-user", "Stranger disconnected!");
             setChatting(getWithChatting(socket.id), "nobody");
@@ -78,31 +59,28 @@ io.on("connection", socket =>{
         setStatus(socket.id, "off");
     });
 
-    //USER IS TYPING
-    socket.on("typing", ()=>{
+    socket.on("typing", ()=>{ //Verifica quando o outro usuário está digitando
         if(getWithChatting != "nobody"){
             socket.to(getWithChatting(socket.id)).emit("stranger-typing", "Stranger is typing...");
         }
     });
 
-    socket.on("get-online-users", () =>{
-        socket.emit("online-users", "ONLINE USERS: "+clientsList.length);
-    });
-
-    socket.on("is-typing", (b) =>{
+    socket.on("is-typing", (b) =>{  //Verifica quando o usuário está digitando
         if(getWithChatting(socket.id) != "nobody"){
             socket.to(getWithChatting(socket.id)).emit("typing", b);
         }
     });
 
-//USER IS DISCONNECTED FROM THE SERVER
-    socket.on("disconnect", ()=>{
+    socket.on("get-online-users", () =>{ //Retorna quantos usuários estão conectados
+        socket.emit("online-users", "ONLINE USERS: "+clientsList.length);
+    });
+
+    socket.on("disconnect", ()=>{ //Quando o usuário for desconectado
         if(getWithChatting(socket.id) != "nobody"){
             socket.to(getWithChatting(socket.id)).emit("disconnected-user", "Stranger disconnected!");
             setChatting(getWithChatting(socket.id), "nobody");
             setStatus(getWithChatting(socket.id), "off");
         }
-
         for(var i = 0; i<clientsList.length; i++){
             if(clientsList[i].id == socket.id){
                 clientsList.splice(i, 1);
@@ -110,33 +88,28 @@ io.on("connection", socket =>{
         }
     });
 
+});
 
-})
-
-
-//READY FUCTIONS
-function getWithChatting(id){
+function getWithChatting(id){//Retorna o usuário com quem está conversando
     for(var i = 0; i < clientsList.length; i++){
         if(clientsList[i].id == id){
             return clientsList[i].chatting_with;
         }
     }
 }
-
-function setStatus(id, status){
+function setStatus(id, status){ //Define um status para o usuário
     for(var i = 0; i < clientsList.length; i++){
         if(clientsList[i].id == id){
             clientsList[i].status = status;
         }
     }
 }
-function setChatting(id, with_){
+function setChatting(id, with_){ //Define o usuário com quem está conversando
     for(var i = 0; i < clientsList.length; i++){
         if(clientsList[i].id == id){
             clientsList[i].chatting_with = with_;
         }
     }
 }
-
 //START SERVER
 server.listen(process.env.PORT || 3000);
