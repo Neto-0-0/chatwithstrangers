@@ -72,7 +72,7 @@ io.on("connection", socket =>{
     });
 
     socket.on("get-online-users", () =>{ //Retorna quantos usuários estão conectados
-        socket.emit("online-users", "ONLINE USERS: "+clientsList.length);
+        socket.emit("online-users", clientsList.length);
     });
 
     socket.on("disconnect", ()=>{ //Quando o usuário for desconectado

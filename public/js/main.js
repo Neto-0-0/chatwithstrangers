@@ -120,7 +120,8 @@ function renderTips(){
 }
 
 //------SOCKET.IO------------------------------------------------------
-let socket = io.connect("https://chatwith-strangers.herokuapp.com");
+//let socket = io.connect("https://chatwith-strangers.herokuapp.com");
+let socket = io.connect("http://192.168.0.100:3000");
 
 socket.emit("get-online-users");
 setInterval(function(){
