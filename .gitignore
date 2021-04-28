@@ -1,4 +1,7 @@
 node_modules
+oldIndex.handlebars
+public/bootstrap
+
 
 views/base
 

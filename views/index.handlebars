@@ -1,60 +1,41 @@
-<div class="container position-relative">
-    <div class="shadow-lg container-body position-absolute top-0 start-50 translate-middle-x">
-        <div class="nav title shadow rounded justify-content-center">CHAT WITH STRANGERS -&nbsp;<span id="online-users" class="text-warning"></span></div>
-            <div class="chat px-2">
+<div class="container-body w-screen bg-indigo-400">
 
-                <div class="information p-2"></div>
-
-                <div id="searching" class="d-flex justify-content-center position-absolute top-50 start-50 translate-middle">
-                  <div id="loading" class="spinner-border text-dark" style="width: 4rem; height: 4rem;" role="status">
-                  </div>
+            <div class="h-screen m-auto body sm:w-5/6 md:w-3/4 w-full rounded-lg">
+                <div class="title fixed sm:w-5/6 md:w-3/4 w-full text-center text-lg bg-blue-600 text-white rounded-sm font-bold p-2">
+                    Chat with strangers - Online: <span id="online-users" class="text-warning"></span>
                 </div>
-                
-                <div id="new-chat" class="invisible d-flex justify-content-center position-absolute top-50 start-50 translate-middle">
-                  <button class="btn btn-info fs-2 " onclick="newChat()">Start chat!</button>
-                </div>
+                <div class="messagesBody p-3 bg-gray-300 text-lg">
+                    
 
+                    <div class="information w-full">
+                    </div>
 
-                <div class="messages"></div>
-                <div id="typingArea">
-                </div>
-                
+                    <div id="searching" class="w-full h-full items-center flex justify-center">
+                        <div id="loading" style="border-top-color: #0048e2;" class="loader border-t-blue-500 ease-linear rounded-full border-4 border-t-4 border-gray-200 h-16 w-16 mb-4"></div>
+                    </div>
 
-                <div class="scrollTarget"></div>
-
-            </div> 
-
-            <div class="controls">
-                <div class="position-relative">
-                    <div class="row inputs" class="position-absolute top-0 start-0">
-
-                        <div class="text col-auto">
-                            <input onKeyPress="inputEnter(event)" autocomplete="off" class="form-control" type="text" id="msg" readonly placeholder="Start a chat...">
+                    <div id="new-chat" class="w-full h-full items-center hidden justify-center">
+                        <div>
+                            <button onclick="newChat()" class="text-white text-2xl font-bold bg-green-600 p-3 rounded hover:text-gray-100 hover:bg-green-700">Start Chat!</button>
                         </div>
+                    </div>
 
-                        <div class="btns col-auto">
-                            <button id="send" onclick="send()" class="col-auto btn btn-outline-primary disabled" type="submit"><i data-feather="send"></i></button> 
-                            
-                            <div id="refresh" class="btn-group dropup invisible">
-
-                                <button onclick="startNewChat()" class="btn btn-info dropdown-toggle-split" aria-expanded="false"><i data-feather="refresh-cw"></i></button>
-
-                                <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span class="visually-hidden">Toggle Dropdown</span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><button onclick="stopChat()" class="dropdown-item" type="button"><i data-feather="alert-circle"></i> Stop chat!</button></li>
-                                </ul>
-                            </div>
-                        </div>
+                    <div class='messages'>
 
                     </div>
-                    
-                </div>
-                
-            </div>
+                    <div id="typingArea" class="mt-10 mb-10">
+                    </div>
+                    <div class="scrollTarget"></div>
 
-    </div>
+                </div>
+            </div>
+        <div id="inputs" class="hidden sm:w-5/6 md:w-3/4 w-full m-auto relative">
+            <div id="refresh" class="rounded-sm flex p-1 bg-blue-600 absolute inset-x-0 bottom-0">
+                <input id="msg" onKeyPress="inputEnter(event)" autocomplete="off" class="sm:w-full w-4/6 rounded-sm focus:outline-none p-1" type="text" placeholder="Digite sua mensagem...">
+                <button id="send" onclick="send()" class="disabled:opacity-50 sm:w-12 w-1/6 btn mx-2 bx bx-send p-2 rounded-sm text-2xl text-white border border-white hover:bg-white hover:text-blue-600 focus:outline-none focus:ring focus:border-blue-300"></button>
+                <button id="stopChat" onclick="stopChat()" class="disabled:opacity-50 sm:w-12 w-1/6 btn mx-2 bx bxs-error-alt p-2 rounded-sm text-2xl text-white hover:bg-white hover:text-blue-600 focus:outline-none focus:ring focus:border-blue-300"></button>
+            </div>
+        </div>  
 </div>
 
 <script>
@@ -81,6 +62,4 @@
         socket.emit("is-typing", b);
         timing = 0;
     }
-
-    feather.replace();
 </script>

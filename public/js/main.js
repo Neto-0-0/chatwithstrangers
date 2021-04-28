@@ -9,22 +9,23 @@ function renderMessage(){
     let msg = document.querySelector("#msg").value;
     if(msg.trim() != ""){
         let divContainer = document.createElement("div");
-        divContainer.setAttribute("class", "wrapper");
+        divContainer.setAttribute("class", "my-msg w-full mt-10 mb-12 flex justify-end");
         let divMsg = document.createElement("div");
-        divMsg.setAttribute("class", "ballon sent float-end shadow");
+        divMsg.setAttribute("class", "bg-green-200 break-all p-2 border border-green-300 rounded-lg rounded-tr-none shadow-lg");
+        let h2 = document.createElement("h2");
+        h2.setAttribute("class", "font-medium");
+        h2.innerText = "You";
         let h3 = document.createElement("h3");
-        h3.innerText = "You";
-        let p = document.createElement("p");
-        p.innerText = msg;
+        h3.innerText = msg;
 
+        divMsg.appendChild(h2);
         divMsg.appendChild(h3);
-        divMsg.appendChild(p);
         divContainer.appendChild(divMsg);
         document.querySelector(".messages").appendChild(divContainer);
-        divContainer.style.animation = "0.5s ballon-chat";
+        divContainer.style.animation = "0.5s message";
     }
 
-    $('.chat, body').animate({
+    $('.messagesBody, body').animate({
         scrollTop: ($(".scrollTarget").offset().top)
     },500);
 
@@ -35,21 +36,22 @@ function renderMessage(){
 function renderStrgMessage(msg){
     if(msg.trim() != ""){
         let divContainer = document.createElement("div");
-        divContainer.setAttribute("class", "wrapper");
+        divContainer.setAttribute("class", "user-msg w-full mt-10 mb-12 flex justify-start");
         let divMsg = document.createElement("div");
-        divMsg.setAttribute("class", "ballon received float-start shadow");
+        divMsg.setAttribute("class", "bg-gray-100 break-all border border-white p-2 rounded-lg rounded-tl-none shadow-lg");
+        let h2 = document.createElement("h2");
+        h2.setAttribute("class", "font-medium");
+        h2.innerText = "Stranger";
         let h3 = document.createElement("h3");
-        h3.innerText = "Stranger";
-        let p = document.createElement("p");
-        p.innerText = msg;
+        h3.innerText = msg;
 
+        divMsg.appendChild(h2);
         divMsg.appendChild(h3);
-        divMsg.appendChild(p);
         divContainer.appendChild(divMsg);
         document.querySelector(".messages").appendChild(divContainer);
-        divContainer.style.animation = "0.5s ballon-chat";
+        divContainer.style.animation = "0.5s message";
         
-        $('.chat, body').animate({
+        $('.messagesBody, body').animate({
             scrollTop: ($(".scrollTarget").offset().top)
         },500);
 
@@ -59,17 +61,18 @@ function renderStrgMessage(msg){
 function renderServerMessage(msg){
     if(msg.trim() != ""){
         let divContainer = document.createElement("div");
-        divContainer.setAttribute("class", "wrapper");
+        divContainer.setAttribute("class", "user-msg w-full mt-10 mb-12 flex justify-start");
         let divMsg = document.createElement("div");
-        divMsg.setAttribute("class", "server float-start shadow");
+        divMsg.setAttribute("class", "bg-red-600 border border-red-700 p-2 rounded-lg rounded-tl-none shadow-lg");
         let h3 = document.createElement("h3");
+        h3.setAttribute("class", "text-white font-bold");
         h3.innerText = msg;
         divMsg.appendChild(h3);
         divContainer.appendChild(divMsg);
         document.querySelector(".messages").appendChild(divContainer);
-        divContainer.style.animation = "0.5s ballon-chat";
+        divContainer.style.animation = "0.7s message";
         
-        $('.chat, body').animate({
+        $('.messagesBody, body').animate({
             scrollTop: ($(".scrollTarget").offset().top)
         },500);
 
@@ -79,19 +82,19 @@ function renderServerMessage(msg){
 function buttonMsg(msg, onclick){
     if(msg.trim() != ""){
         let divContainer = document.createElement("div");
-        divContainer.setAttribute("class", "wrapper");
+        divContainer.setAttribute("class", "user-msg w-full mt-10 mb-12 flex justify-start");
         let divMsg = document.createElement("div");
-        divMsg.setAttribute("class", "received p-2 float-start shadow");
+        divMsg.setAttribute("class", "bg-gray-100 border border-white p-2 rounded-lg rounded-tl-none shadow-lg");
         let btn = document.createElement("button");
-        btn.setAttribute("class", "btn btn-success");
+        btn.setAttribute("class", "text-white text-xl font-bold bg-green-600 p-3 rounded hover:text-gray-100 hover:bg-green-700");
         btn.setAttribute("onclick", onclick+"()");
         btn.innerText = msg;
         divMsg.appendChild(btn);
         divContainer.appendChild(divMsg);
         document.querySelector(".messages").appendChild(divContainer);
-        divContainer.style.animation = "0.5s ballon-chat";
+        divContainer.style.animation = "0.7s message";
         
-        $('.chat, body').animate({
+        $('.messageBody, body').animate({
             scrollTop: ($(".scrollTarget").offset().top)
         },500);
 
@@ -105,16 +108,15 @@ function getTips(){
 function renderTips(){
     var textTips = tips[getTips()];
 
-    var h4 = document.createElement("h4");
-    h4.setAttribute("class", "h5");
-    h4.innerHTML = "Você está em uma conversa!";
+    var div = document.createElement("div");
+    div.setAttribute("class", textTips.class);
 
-    var p = document.createElement("p");
-    p.setAttribute("class", textTips.class);
-    p.innerHTML = textTips.text;
+    var h3 = document.createElement("h3");
+    h3.setAttribute("class", "text-center text-white font-bold");
+    h3.innerHTML = textTips.text;
 
-    document.querySelector(".information").appendChild(h4);
-    document.querySelector(".information").appendChild(p);
+    div.appendChild(h3);
+    document.querySelector(".information").appendChild(div);
 }
 
 //------SOCKET.IO------------------------------------------------------
@@ -129,9 +131,9 @@ setInterval(function(){
 function newChat(){
     document.querySelector(".information").innerHTML = "";
     document.querySelector(".messages").innerHTML = "";
-    document.querySelector("#searching").setAttribute("class", "d-flex justify-content-center position-absolute top-50 start-50 translate-middle");
-    document.querySelector("#new-chat").setAttribute("class", "invisible d-flex justify-content-center position-absolute top-50 start-50 translate-middle");
-    document.querySelector("#loading").setAttribute("class", "spinner-border text-light");
+    document.querySelector("#searching").setAttribute("class", "w-full h-full items-center flex justify-center");
+    document.querySelector("#new-chat").setAttribute("class", "hidden");
+    document.querySelector("#loading").setAttribute("style", "border-top-color: #14b91c;");
     socket.emit("search-chat");
 }
 
@@ -139,16 +141,12 @@ function startNewChat(){
     var conf = confirm("Deseja sair do bate papo?");
     if(conf){
         document.querySelector(".information").innerHTML = "";
-        document.querySelector("#msg").readOnly = true;
-        document.querySelector("#msg").setAttribute("placeholder", "Start a new chat...");
-        document.querySelector("#send").setAttribute("class", "col-auto btn btn-outline-primary disabled");
-        document.querySelector("#refresh").setAttribute("class", "btn-group dropup invisible");
-
+        document.querySelector("#inputs").setAttribute("class", "hidden");
         document.querySelector(".messages").innerHTML = "";
 
-        document.querySelector("#searching").setAttribute("class", "d-flex justify-content-center position-absolute top-50 start-50 translate-middle");
-        document.querySelector("#new-chat").setAttribute("class", "invisible d-flex justify-content-center position-absolute top-50 start-50 translate-middle");
-        document.querySelector("#loading").setAttribute("class", "spinner-border text-light");
+        document.querySelector("#searching").setAttribute("class", "w-full h-full items-center flex justify-center");
+        document.querySelector("#new-chat").setAttribute("class", "hidden");
+        document.querySelector("#loading").setAttribute("style", "border-top-color: #14b91c;");
         socket.emit("search-chat");
     }
 }
@@ -156,15 +154,9 @@ function startNewChat(){
 function stopChat(){
     var confi = confirm("Deseja sair do bate papo?");
     if(confi){
-        document.querySelector("#msg").readOnly = true;
-        document.querySelector("#msg").setAttribute("placeholder", "Start a new chat...");
-        document.querySelector("#send").setAttribute("class", "col-auto btn btn-outline-primary disabled");
-        document.querySelector("#refresh").setAttribute("class", "btn-group dropup invisible");
-
+        document.querySelector("#inputs").setAttribute("class", "hidden");
         buttonMsg("Start a new chat!", "newChat");
-
         socket.emit("reset-chatting");
-        
     }
 }
 
@@ -185,23 +177,15 @@ socket.on("chatting", function(id){
     document.querySelector(".messages").innerHTML = "";
     document.querySelector(".information").innerHTML = "";
     //alert("Chating with: "+ id);
-    document.querySelector(".controls").setAttribute("class", "controls");
-    document.querySelector("#searching").setAttribute("class", "invisible");
-    document.querySelector("#msg").readOnly = false;
-
+    document.querySelector("#inputs").setAttribute("class", "flex sm:w-5/6 md:w-3/4 w-full m-auto relative");
+    document.querySelector("#searching").setAttribute("class", "hidden");
+    document.querySelector("#inputs").setAttribute("class", "flex sm:w-5/6 md:w-3/4 w-full m-auto relative");
     renderTips();
-
-    document.querySelector("#msg").setAttribute("placeholder", "Type a message...");
-    document.querySelector("#send").setAttribute("class", "col-auto btn btn-outline-primary");
-    document.querySelector("#refresh").setAttribute("class", "btn-group dropup");
 });
 
 
 socket.on("disconnected-user", function(msg){
-    document.querySelector("#msg").readOnly = true;
-    document.querySelector("#msg").setAttribute("placeholder", "Start a new chat...");
-    document.querySelector("#send").setAttribute("class", "col-auto btn btn-outline-primary disabled");
-    document.querySelector("#refresh").setAttribute("class", "btn-group dropup invisible");
+    document.querySelector("#inputs").setAttribute("class", "hidden");
     renderServerMessage(msg);
     buttonMsg("Start a new chat!", "newChat");
     socket.emit("reset-chatting");
@@ -216,7 +200,7 @@ socket.on("typing", function(b){
     if(b){
         var typing = document.createElement('div');
         typing.setAttribute("id", "isTyping");
-        typing.setAttribute("class", "typing float-start shadow");
+        typing.setAttribute("class", "typing user-msg w-full flex justify-start shadow-lg");
 
         var dot1 = document.createElement('div');
         dot1.setAttribute("class", "typing__dot");
@@ -230,11 +214,11 @@ socket.on("typing", function(b){
         typing.appendChild(dot3);
 
         typingArea.appendChild(typing);
-        $('.chat, body').animate({
+        $('.messagesBody, body').animate({
             scrollTop: ($(".scrollTarget").offset().top)
         },500);
 
-        typing.style.animation = "0.2s ballon-chat";
+        typing.style.animation = "0.5s message";
     }else{
         if(document.getElementById("isTyping")){
             document.getElementById("isTyping").remove();
@@ -247,6 +231,6 @@ socket.on("typing", function(b){
 socket.emit("connected");
 
 socket.on("client-connected", function(data){
-    document.querySelector("#searching").setAttribute("class", "invisible");
-    document.querySelector("#new-chat").setAttribute("class", "visible d-flex justify-content-center position-absolute top-50 start-50 translate-middle");
+    document.querySelector("#searching").setAttribute("class", "hidden");
+    document.querySelector("#new-chat").setAttribute("class", "w-full h-full items-center flex justify-center");
 });
